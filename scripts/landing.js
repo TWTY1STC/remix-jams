@@ -1,14 +1,14 @@
-var animatePoints = function(){
-    var points = document.getElementsByClassName('point');
-    
-    var revealPoint = function(index) {
-            points[index].style.opactiy = 1;
-            points[index].style.transform = "scale(1) translateY(0)";
-            points[index].style.msTransform = "scale(1) translateY(0)";
-            points[index].style.WebkitTransform = "scale(1) translateY(0)";
-    };
-    
-    for (var i =0; i< points.length; i++){
-        revealPoint(i);
+var points = document.getElementsByClassName('point');
+
+var animatePoints = function(points){
+    var revealPoint = function(points) {
+        for(var point in points){
+            points[point].style.opactiy = 1;
+            points[point].style.transform = "scale(1) translateY(0)";
+            points[point].style.msTransform = "scale(1) translateY(0)";
+            points[point].style.WebkitTransform = "scale(1) translateY(0)";
     }
+    
+    revealPoint(points);
+    };
 };
