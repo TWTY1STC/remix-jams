@@ -127,7 +127,7 @@ window.onload = function() {
     
     songListConstainer.addEventListener('mouseover', function(event){
         if(event.target.parentElement.className === 'album-view-song-item'){
-          event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;  
+          event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
         
           var songItem = getSongItem(event.target);
           
@@ -145,7 +145,7 @@ window.onload = function() {
            var songItemNumber = songItem.getAttribute('data-song-number');
            
            if(songItemNumber !== currentlyPlayingSong) {
-               songItem.innerHTML = songItemNumber
+               songItem.innerHTML = songItemNumber;
            }
         });
         
