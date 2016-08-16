@@ -8,10 +8,18 @@ var setSong = function(songNumber) {
         formats: ['mp3'],
         preload: true
     });
+    
+    setVolume(currentVolume);
 };
 
 var setSongNumberCell = function(number) {
     return('.song-item-number[data-song-number="' + number + '"]');
+};
+
+var setVolume = function(volume){
+    if(currentSoundFile){
+        currentSoundFile.setVolume(volume);
+    }
 };
 
 var createSongRow = function(songNumber, songName, songLength) {
@@ -125,7 +133,8 @@ var nextSong = function(){
 
 var previousSong = function(){
     var getLastSongNumber = function(index){
-        return index == (currentAlbum.songs.length -1) ? 1 : index + 1;
+        return index == (currentAlbum.songs.length -1) ? 1 : index + 2;
+        //Why return 1 and not 0 & why + 2 and not +1?
         //if index = last song, return first song
     };
     
@@ -148,7 +157,7 @@ var previousSong = function(){
 var updatePlayerBarSong = function(){
     $(".currently-playing .song-name").text(currentSongFromAlbum.title);
     $('.currently-playing .artist-name').text(currentAlbum.artist);
-    $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.title + ' - '+ currentAlbum.artist)
+    $(".currently-playing .artist-song-mobile").text(currentSongFromAlbum.title + ' - '+ currentAlbum.artist);
     $(".main-controls .play-pause").html(playerBarPauseButton)
 };
 
@@ -164,6 +173,8 @@ var currentAlbum = null; //updated when there is a song playing
 var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null; 
 var currentSoundFile = null;
+var currentVolume = 80;
+
 
 var $previousButton = $('main-controls .previous');
 var $nextButton = $('.main-controls .next');
