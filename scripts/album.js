@@ -10,7 +10,7 @@ var createSongRow = function(songNumber, songName, songLength) {
     var $row = $(template);
         
     var clickHandler = function(){
-        var songNumber = $(this).attr('data-song-number');
+        var songNumber = parseInt($(this).attr('data-song-number'));
         
         if(currentlyPlayingSongNumber !== null) { 
              //Change play to song number because user started playing new song.
@@ -35,7 +35,7 @@ var createSongRow = function(songNumber, songName, songLength) {
         
     var onHover = function(event){
         var songNumberCell = $(this).find('.song-item-number');
-        var songNumber = songNumberCell.attr('data-song-number');
+        var songNumber = parseInt(songNumberCell.attr('data-song-number'));
         
         if(songNumber !== currentlyPlayingSongNumber) {
             songNumberCell.html(playButtonTemplate);
@@ -43,11 +43,12 @@ var createSongRow = function(songNumber, songName, songLength) {
     };
     var offHover = function(event){
         var songNumberCell = $(this).find('.song-item-number');
-        var songNumber = songNumberCell.attr('data-song-number');
+        var songNumber = parseInt(songNumberCell.attr('data-song-number'));
         
         if(songNumber !== currentlyPlayingSongNumber) {
             songNumberCell.html(songNumber);
         }
+        console.log('songNumber type is' + typeof songNumber + '\n and currentlyPlayingSongNumber type is' + typeof currentlyPlayingSongNumber);
     };
     
     $row.find('.song-item-number').click(clickHandler); //makes $(this) available for clickHandler
@@ -114,8 +115,28 @@ var previousSong = function(){
     var getLastSongNumber = function(index){
         return index == (currentAlbum.songs.length -1) ? 1 : index + 2;
         //if index = last song, return first song
-    }
+    };
     
+    var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+    currentSongIndex--;
+    
+    if (currentSongIndex < 0){
+        currentSongIndex = currentAlbum.songs.length - 1;
+    }
+    currentlyPlayingSongNumber = currentSongIndex + 1;
+    currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
+    
+    $('.currently-playing .song-name').text(currentSongFromAlbum.title);
+    $('.currently-playing .artist-name').text(currentAlbum.artist);
+    $('.currently-playing .artist-song-mobile').text(currentSongFromAlbum.title + ' - ' + currentAlbum.artist);
+    $(".main-controls .play-pause").html(playerBarPauseButton);
+    
+    var lastSongNumber = getLastSongNumber(currentSongIndex);
+    var $previousSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
+    var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
+    
+    $previousSongNumberCell.html(pauseButtonTemplate);
+    $lastSongNumberCell.html(lastSongNumber);
     
 };
 
@@ -138,8 +159,12 @@ var currentAlbum = null; //updated when there is a song playing
 var currentlyPlayingSongNumber = null;
 var currentSongFromAlbum = null; 
 
+var $previousButton = $('main-controls .previous');
+var $nextButton = $('.main-controls .next');
+
 $( document ).ready(function(){
     setCurrentAlbum(albumPiscasso);
-    
+    $previousButton.click(previousSong);
+    $nextButton.click(nextSong);
 });
 
