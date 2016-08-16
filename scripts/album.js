@@ -13,17 +13,19 @@ var createSongRow = function(songNumber, songName, songLength) {
         var songNumber = $(this).attr('data-song-number');
         
         if(currentlyPlayingSongNumber !== null) { 
-             //Revert to song number for currently playing song because user started playing new song.
+             //Change play to song number because user started playing new song.
             var currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
             currentlyPlayingCell.html(currentlyPlayingSongNumber);
         }
         
         if(currentlyPlayingSongNumber !== songNumber){
+            // Click on non-playing song while another song is already playing. Play to Pause because a new song is playing.
             $(this).html(pauseButtonTemplate);
             currentlyPlayingSongNumber = songNumber;
             currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
             updatePlayerBarSong();
         }else if(currentlyPlayingSongNumber === songNumber) {
+            //Click on already playing song, displaying Pause button; Now will display play button.
             $(this).html(playButtonTemplate);
             $('.main-controls .play-pause').html(playerBarPlayButton)
             currentlyPlayingSongNumber = null;
@@ -81,6 +83,7 @@ var trackIndex = function(album, song) {
 var nextSong = function(){
     var getLastSongNumber = function(index){
         return index == 0 ? currentAlbum.songs.length : index;
+        // if index is = 0, return the last song, else return index
     };
     var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
     currentSongIndex ++;
@@ -105,6 +108,14 @@ var nextSong = function(){
     
     $nextSongNumberCell.html(pauseButtonTemplate);
     //$lastSongNumberCell.html(lastSongNumber);
+};
+
+var previousSong = function(){
+    var getLastSongNumber = function(index){
+        return index == (currentAlbum.songs.length -1) ? 1 : index + 2;
+        //if index = last song, return first song
+    }
+    
     
 };
 

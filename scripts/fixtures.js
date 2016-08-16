@@ -1,3 +1,4 @@
+//fixture files hold 'junk' data, simulate real data.
 var albumPiscasso = {
     title: 'The Colors',
     artist: 'Pablo Picasso',
